@@ -6,10 +6,22 @@ import olMultiPolygon from "ol/geom/multipolygon";
 import olStyle from "ol/style/style";
 import olFill from "ol/style/fill";
 import olStroke from "ol/style/stroke";
-import GeoJSON from "ol/format/geojson";
 import proj from "ol/proj";
 
 import US_STATES from "./data/us_states.json";
+
+const styleFunction = (feature, resolution) => {
+  const color = feature.getProperties().selected ? "#FF6347" : "#7FDBFF33";
+  return [
+    new olStyle({
+      fill: new olFill({ color: color }),
+      stroke: new olStroke({
+        color: "#0074D9",
+        width: 2,
+      }),
+    }),
+  ];
+};
 
 export const createUSStatesLayer = () => {
   const layer = new olVectorLayer({ source: new olVectorSource() });
@@ -29,16 +41,12 @@ export const createUSStatesLayer = () => {
         : new olPolygon(coords);
     const feature = new olFeature({ geometry: olGeom });
 
-    feature.setStyle(
-      new olStyle({
-        fill: new olFill({ color: "#7FDBFF33" }),
-        stroke: new olStroke({
-          color: "#0074D9",
-          width: 2,
-        }),
-      })
-    );
-    feature.setProperties({ ...properties, title: properties.NAME });
+    feature.setStyle(styleFunction);
+    feature.setProperties({
+      ...properties,
+      title: properties.NAME,
+      selected: false,
+    });
     source.addFeature(feature);
   });
 

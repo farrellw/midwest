@@ -9,13 +9,12 @@ function App() {
   const onMapInit = (map: any) => {
     map.on("click", (event: any) => {
       map.forEachFeatureAtPixel(event.pixel, function (
-        feature: any,
-        layer: any
+        feature: any
       ) {
         const p = feature.getProperties()
         if (p) {
-          console.log(p["NAME"]);
-          console.log(layer)
+          const selected = !p.selected;
+          feature.setProperties({ ...p, selected: selected });
         }
       });
     });

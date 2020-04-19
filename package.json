@@ -22,8 +22,6 @@
     "@types/react-select": "^3.0.8",
     "@types/react-table": "^6.8.5",
     "@types/react-virtualized": "^9.21.7",
-    "highcharts": "^8.0.0",
-    "highcharts-react-official": "^2.2.2",
     "node-sass": "^4.13.0",
     "node-xlsx": "^0.15.0",
     "ol": "4.6.5",
