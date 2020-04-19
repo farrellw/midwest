@@ -19,9 +19,22 @@ function App() {
       });
     });
     const layer = createUSStatesLayer();
-    map.addLayer(layer);
+    map.addLayer(layer);  
+    OLKit.centerAndZoom(map, {
+      x: -98.5795,
+      y: 39.8283,
+      zoom: 4
+    })
   };
-  return <OLKit.Map onMapInit={onMapInit} />;
+
+  return (
+    <section className="map-container">
+      <OLKit.Map onMapInit={onMapInit}>
+        <OLKit.Controls />
+        <OLKit.Popup />
+      </OLKit.Map>
+    </section>
+  );
 }
 
 export default App;
