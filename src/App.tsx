@@ -5,13 +5,35 @@ import * as OLKit from "@bayer/ol-kit";
 import Feature from 'ol/feature';
 import Map from 'ol/Map';
 import { createUSStatesLayer } from "./utils";
+import { useHistory } from "react-router-dom";
+
+/*
+TODO: Add draw loop over states
+TODO: Add results page
+TODO: Format Landing Page
+*/
 
 function App() {
+  let history = useHistory();
+
   var formData: {
     features: Feature[]
   } = { features: [] };
   const onMapInit = (map: Map) => {
     const layer = createUSStatesLayer();
+    map.on("hover", (event: any) => {
+
+      map.forEachFeatureAtPixel(event.pixel, (feature: any) => {
+        const p = feature.getProperties();
+        if (p) {
+          const selected = !p.selected;
+          feature.setProperties({ ...p, selected: selected });
+        }
+        const features = layer.getSource().getFeatures();
+        formData.features = features;
+      })
+    });
+
     map.on("click", (event: any) => {
       event.preventDefault();
       map.forEachFeatureAtPixel(event.pixel, function (feature: any) {
@@ -33,8 +55,11 @@ function App() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
+    // TODO Submit Form Data Here
     console.log(formData);
+  
     e.preventDefault();
+    history.push("results");
   };
 
   return (

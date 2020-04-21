@@ -1,25 +1,20 @@
 import * as React from "react";
 import App from "./App";
-import { BrowserRouter, Route } from "react-router-dom";
+import Results from "./Results";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 function Router() {
   return (
     <BrowserRouter>
-      <Route path="/">
-        <App />
-      </Route>
-      <Route path="/results">
-        <Results />
-      </Route>
+      <Switch>
+        <Route path="/results">
+          <Results />
+        </Route>
+        <Route path="/">
+          <App />
+        </Route>
+      </Switch>
     </BrowserRouter>
-  );
-}
-
-function Results() {
-  return (
-    <div>
-      <h2>Results</h2>
-    </div>
   );
 }
 

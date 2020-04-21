@@ -6,12 +6,14 @@ import olMultiPolygon from "ol/geom/multipolygon";
 import olStyle from "ol/style/style";
 import olFill from "ol/style/fill";
 import olStroke from "ol/style/stroke";
+import olText from "ol/style/text";
 import proj from "ol/proj";
 
 import US_STATES from "./data/us_states.json";
 
 const styleFunction = (feature, resolution) => {
   const color = feature.getProperties().selected ? "#FF6347" : "#7FDBFF33";
+  const name = feature.getProperties().NAME;
   return [
     new olStyle({
       fill: new olFill({ color: color }),
@@ -19,6 +21,7 @@ const styleFunction = (feature, resolution) => {
         color: "#0074D9",
         width: 2,
       }),
+      text: new olText({ text: name }),
     }),
   ];
 };
