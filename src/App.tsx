@@ -13,6 +13,7 @@ function App() {
   const onMapInit = (map: Map) => {
     const layer = createUSStatesLayer();
     map.on("click", (event: any) => {
+      event.preventDefault();
       map.forEachFeatureAtPixel(event.pixel, function (feature: any) {
         const p = feature.getProperties();
         if (p) {
