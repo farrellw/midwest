@@ -21,18 +21,6 @@ function App() {
   } = { features: [] };
   const onMapInit = (map: Map) => {
     const layer = createUSStatesLayer();
-    map.on("hover", (event: any) => {
-
-      map.forEachFeatureAtPixel(event.pixel, (feature: any) => {
-        const p = feature.getProperties();
-        if (p) {
-          const selected = !p.selected;
-          feature.setProperties({ ...p, selected: selected });
-        }
-        const features = layer.getSource().getFeatures();
-        formData.features = features;
-      })
-    });
 
     map.on("click", (event: any) => {
       event.preventDefault();
