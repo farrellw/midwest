@@ -2,14 +2,15 @@ import * as React from "react";
 import "./App.scss";
 import "ol/ol.css";
 import * as OLKit from "@bayer/ol-kit";
-import Feature from 'ol/feature';
 import Map from 'ol/Map';
-import { createUSStatesLayer } from "./utils";
+import { createUSStatesLayer, styleFunction } from "./utils";
 import { useHistory } from "react-router-dom";
 
 /*
+TODO: Wrap in nginx docker container
+TODO: Save results to database.
 TODO: Add draw loop over states
-TODO: Add results page
+TODO: retrieve results from database
 TODO: Format Landing Page
 */
 
@@ -17,18 +18,18 @@ function App() {
   let history = useHistory();
 
   var formData: {
-    features: Feature[]
+    features: ol.Feature[]
   } = { features: [] };
-  const onMapInit = (map: Map) => {
-    const layer = createUSStatesLayer();
-
-    map.on("click", (event: any) => {
-      event.preventDefault();
-      map.forEachFeatureAtPixel(event.pixel, function (feature: any) {
+  const onMapInit = async (map: Map) => {
+    const layer = await createUSStatesLayer();
+    map.on("click", (evt: any) => {
+      evt.preventDefault();
+      map.forEachFeatureAtPixel(evt.pixel, (feature: any, layer: any) => {
         const p = feature.getProperties();
         if (p) {
           const selected = !p.selected;
           feature.setProperties({ ...p, selected: selected });
+          feature.setStyle(styleFunction)
         }
         const features = layer.getSource().getFeatures();
         formData.features = features;
@@ -45,7 +46,7 @@ function App() {
   const handleSubmit = (e: React.FormEvent) => {
     // TODO Submit Form Data Here
     console.log(formData);
-  
+
     e.preventDefault();
     history.push("results");
   };
