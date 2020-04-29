@@ -96,13 +96,12 @@ export const createResultsLayer = () => {
   return layer;
 };
 
-// Uses a proxy below
 export const createUSStatesLayer = async () => {
   const layer = new olVectorLayer({
     source: new olVectorSource(
       {
         format: new GeoJSON(),
-        url: "http://geoserver:8600/geoserver/farrell/wms?service=WMS&version=1.1.0&request=GetMap&layers=farrell%3Astates&bbox=-179.14734%2C17.884813%2C179.77847%2C71.352561&width=768&height=330&srs=EPSG%3A4326&format=geojson"
+        url: "/geoserver/farrell/wms?service=WMS&version=1.1.0&request=GetMap&layers=farrell%3Astates&bbox=-179.14734%2C17.884813%2C179.77847%2C71.352561&width=768&height=330&srs=EPSG%3A4326&format=geojson"
       }),
     style: styleFunction
   });
