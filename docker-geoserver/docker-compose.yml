@@ -38,11 +38,12 @@ services:
       retries: 3
 
   client:
-    image: midwest:latest
+    build:
+      context: ../
     depends_on:
       - geoserver
     ports:
-      - "1004:80"
+      - "3000:80"
 
   db-dbbackups:
     image: kartoza/pg-backup:12.0

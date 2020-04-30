@@ -22,6 +22,13 @@ function App() {
   } = { features: [] };
   const onMapInit = async (map: Map) => {
     const layer = await createUSStatesLayer();
+    if (layer != null) {
+      map.addLayer(layer);
+    } else {
+      console.log("Something screwed up loading the layer")
+    }
+
+
     map.on("click", (evt: any) => {
       evt.preventDefault();
       map.forEachFeatureAtPixel(evt.pixel, (feature: any, layer: any) => {
@@ -35,7 +42,7 @@ function App() {
         formData.features = features;
       });
     });
-    map.addLayer(layer);
+
     OLKit.centerAndZoom(map, {
       x: -98.5795,
       y: 39.8283,

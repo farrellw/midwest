@@ -97,13 +97,23 @@ export const createResultsLayer = () => {
 };
 
 export const createUSStatesLayer = async () => {
-  const layer = new olVectorLayer({
-    source: new olVectorSource(
-      {
-        format: new GeoJSON(),
-        url: "/geoserver/farrell/wms?service=WMS&version=1.1.0&request=GetMap&layers=farrell%3Astates&bbox=-179.14734%2C17.884813%2C179.77847%2C71.352561&width=768&height=330&srs=EPSG%3A4326&format=geojson"
-      }),
-    style: styleFunction
-  });
-  return layer;
+  const url = "geoserver/f/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=f%3Astates&maxFeatures=50&outputFormat=application%2Fjson"
+  try {
+    const res = await fetch(url)
+    const json = await res.json();
+
+    //  If the above loaded, then we did something correct
+    const layer = new olVectorLayer({
+      source: new olVectorSource(
+        {
+          format: new GeoJSON(),
+          url: url
+        }),
+      style: styleFunction
+    });
+    return layer;
+  } catch (er) {
+    console.log(er)
+    return null
+  }
 };
